@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using xadrez_console.Board;
+
 namespace xadrez_console
 {
     internal class Program
@@ -11,7 +11,7 @@ namespace xadrez_console
 
             Console.WriteLine("Position: " + p);
 
-            Console.ReadLine();    
+            Console.ReadLine();
         }
     }
 }
