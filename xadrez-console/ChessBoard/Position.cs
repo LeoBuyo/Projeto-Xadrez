@@ -1,21 +1,21 @@
-﻿namespace xadrez_console.Board
+﻿namespace xadrez_console.ChessBoard
 {
     internal class Position
     {
-        public int Row { get; set; }
+        public int Rank { get; set; }
         public int Column { get; set; }
 
         public Position() { }
 
-        public Position(int row, int column)
+        public Position(int rank, int column)
         {
-            Row = row;
+            Rank = rank;
             Column = column;
         }
 
         public override string ToString()
         {
-            return Row
+            return Rank
                 + ", "
                 + Column;
         }

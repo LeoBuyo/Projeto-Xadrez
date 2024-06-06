@@ -1,5 +1,5 @@
 ﻿using System;
-using xadrez_console.Board;
+using xadrez_console.ChessBoard;
 
 namespace xadrez_console
 {
@@ -11,7 +11,7 @@ namespace xadrez_console
 
             Console.WriteLine("Position: " + p);
 
-            Console.ReadLine();
+            Board board = new Board(8, 8);
         }
     }
 }
