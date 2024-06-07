@@ -5,7 +5,7 @@
     {
         public int Ranks { get; set; }
         public int Columns { get; set; }
-        public Piece[,] Piece { get; private set; }
+        public Piece[,] Pieces { get; private set; }
 
         public Board() { }
 
@@ -13,7 +13,13 @@
         {
             Ranks = ranks;
             Columns = columns;
-            Piece = new Piece[ranks, columns];
+            Pieces = new Piece[ranks, columns];
+        }
+
+        public void PutPiece(Piece p, Position pos)
+        {
+            Pieces[pos.Rank, pos.Column] = p;
+            p.Position = pos;
         }
     }
 }

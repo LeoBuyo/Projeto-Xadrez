@@ -11,11 +11,11 @@ namespace xadrez_console.ChessBoard
         public Board Board { get; protected set; }
         public Piece() { }
 
-        public Piece(Position position, Color color, int qtyMovement, Board board)
+        public Piece(Color color, Board board)
         {
-            Position = position;
+            Position = null;
             Color = color;
-            QtyMovement = qtyMovement;
+            QtyMovement = 0;
             Board = board;
         }
     }
