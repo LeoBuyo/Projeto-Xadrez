@@ -5,7 +5,7 @@
     {
         public int Ranks { get; set; }
         public int Columns { get; set; }
-        public Piece[,] Pieces { get; set; }
+        public Piece[,] Piece { get; private set; }
 
         public Board() { }
 
@@ -13,7 +13,7 @@
         {
             Ranks = ranks;
             Columns = columns;
-            Pieces = new Piece[ranks, columns];
+            Piece = new Piece[ranks, columns];
         }
     }
 }
