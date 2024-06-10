@@ -5,7 +5,7 @@ namespace xadrez_console.ChessBoard
 {
     internal class Piece
     {
-        public Position Position { get; set; }
+        public BoardPosition Position { get; set; }
         public Color Color { get; protected set; }
         public int QtyMovement { get; protected set; }
         public Board Board { get; protected set; }

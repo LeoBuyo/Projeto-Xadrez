@@ -1,13 +1,13 @@
 ﻿namespace xadrez_console.ChessBoard
 {
-    internal class Position
+    internal class BoardPosition
     {
         public int Rank { get; set; }
         public int Column { get; set; }
 
-        public Position() { }
+        public BoardPosition() { }
 
-        public Position(int rank, int column)
+        public BoardPosition(int rank, int column)
         {
             Rank = rank;
             Column = column;

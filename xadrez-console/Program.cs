@@ -9,20 +9,10 @@ namespace xadrez_console
     {
         static void Main(string[] args)
         {
-            try
-            {
-                Board board = new Board(8, 8);
+            PiecePosition pos = new PiecePosition('c', 7);
 
-                board.PutPiece(new King(Color.Black, board), new Position(0, 0));
-                board.PutPiece(new Rook(Color.Black, board), new Position(1, 9));
-                board.PutPiece(new Pawn(Color.Black, board), new Position(0, 0));
-
-                Screen.PrintBoard(board);
-            }
-            catch (ChessBoardException e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Console.WriteLine(pos);
+            Console.WriteLine(pos.ToPosition());
         }
     }
 }
