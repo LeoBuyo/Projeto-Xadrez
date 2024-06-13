@@ -1,6 +1,7 @@
 ﻿using System;
 using xadrez_console.ChessBoard.Enums;
 using xadrez_console.ChessBoard;
+using xadrez_console.ChessPieces;
 
 namespace xadrez_console
 {
@@ -28,6 +29,14 @@ namespace xadrez_console
             Console.WriteLine("  a b c d e f g h");
         }
 
+        public static PiecePosition ReadPiecePosition()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int rank = int.Parse(s[1] + " ");
+            return new PiecePosition(column, rank);
+        }
+
         public static void PrintPiece (Piece piece)
         {
             if (piece.Color == Color.White)
@@ -36,10 +45,10 @@ namespace xadrez_console
             }
             else
             {
-                ConsoleColor aux = Console.ForegroundColor;
+                ConsoleColor temp = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(piece);
-                Console.ForegroundColor = aux;
+                Console.ForegroundColor = temp;
             }
         }
     }

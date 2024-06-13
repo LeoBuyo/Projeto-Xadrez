@@ -7,7 +7,7 @@ namespace xadrez_console.ChessBoard
     {
         public BoardPosition Position { get; set; }
         public Color Color { get; protected set; }
-        public int QtyMovement { get; protected set; }
+        public int MovementCount { get; protected set; }
         public Board Board { get; protected set; }
         public Piece() { }
 
@@ -15,8 +15,13 @@ namespace xadrez_console.ChessBoard
         {
             Position = null;
             Color = color;
-            QtyMovement = 0;
+            MovementCount = 0;
             Board = board;
+        }
+
+        public void MovementCountIncrement()
+        {
+            MovementCount++;
         }
     }
 }

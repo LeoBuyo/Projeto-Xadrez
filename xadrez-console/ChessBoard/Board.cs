@@ -37,6 +37,18 @@
             p.Position = pos;
         }
 
+        public Piece TakePiece(BoardPosition pos)
+        {
+            if (piece(pos) == null)
+            {
+                return null;
+            }
+            Piece temp = piece(pos);
+            temp.Position = null;
+            Pieces[pos.Rank, pos.Column] = null;
+            return temp;
+        }
+
         public bool VerifyPosition(BoardPosition pos)
         {
             if (pos.Rank < 0 || pos.Column < 0 || pos.Rank >= Ranks || pos.Column >= Columns)
