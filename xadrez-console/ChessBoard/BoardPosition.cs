@@ -13,6 +13,12 @@
             Column = column;
         }
 
+        public void defineValues(int rank, int column)
+        {
+            Rank = rank;
+            Column = column;
+        }
+
         public override string ToString()
         {
             return Rank

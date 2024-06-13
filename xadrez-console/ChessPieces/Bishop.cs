@@ -13,5 +13,17 @@ namespace xadrez_console.ChessPieces
         {
             return "B";
         }
+        private bool CanMove(BoardPosition pos)
+        {
+            Piece p = Board.piece(pos);
+            return p == null || p.Color != Color;
+        }
+
+        public override bool[,] PossibleMovements()
+        {
+            bool[,] matrix = new bool[Board.Ranks, Board.Columns];
+
+            return matrix;
+        }
     }
 }

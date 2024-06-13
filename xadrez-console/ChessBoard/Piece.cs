@@ -3,7 +3,7 @@ using xadrez_console.ChessBoard.Enums;
 
 namespace xadrez_console.ChessBoard
 {
-    internal class Piece
+    internal abstract class Piece
     {
         public BoardPosition Position { get; set; }
         public Color Color { get; protected set; }
@@ -18,6 +18,8 @@ namespace xadrez_console.ChessBoard
             MovementCount = 0;
             Board = board;
         }
+
+        public abstract bool[,] PossibleMovements();
 
         public void MovementCountIncrement()
         {
