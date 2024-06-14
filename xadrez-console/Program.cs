@@ -15,22 +15,36 @@ namespace xadrez_console
 
                 while (!match.Terminated)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Turn: " + match.Turn);
+                        Console.WriteLine("Waiting for player: " + match.PlayerToAct);
 
-                    Console.WriteLine();
-                    Console.Write("Origin: ");
-                    BoardPosition origin = Screen.ReadPiecePosition().ToPosition();
+                        Console.WriteLine();
+                        Console.Write("Origin: ");
+                        BoardPosition origin = Screen.ReadPiecePosition().ToPosition();
+                        match.ValidateOriginPosition(origin);
 
-                    bool[,] possibleMovements = match.Board.piece(origin).PossibleMovements();
+                        bool[,] possibleMovements = match.Board.piece(origin).PossibleMovements();
 
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board, possibleMovements);
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possibleMovements);
 
-                    Console.Write("Destination: ");
-                    BoardPosition destination = Screen.ReadPiecePosition().ToPosition();
+                        Console.WriteLine();
+                        Console.Write("Destination: ");
+                        BoardPosition destination = Screen.ReadPiecePosition().ToPosition();
+                        match.ValidateDestinationPosition(origin, destination);
 
-                    match.ExecutionOfMovement(origin, destination);
+                        match.MakeMove(origin, destination);
+                    }
+                    catch (ChessBoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
             }
             catch (ChessBoardException e)

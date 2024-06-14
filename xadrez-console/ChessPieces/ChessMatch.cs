@@ -27,6 +27,50 @@ namespace xadrez_console.ChessPieces
             Board.PutPiece(p, destination);
         }
 
+        public void MakeMove(BoardPosition origin, BoardPosition destination)
+        {
+            ExecutionOfMovement(origin, destination);
+            Turn++;
+            ChangeTurn();
+        }
+
+        public void ValidateOriginPosition(BoardPosition position)
+        {
+            if (Board.piece(position) == null)
+            {
+                throw new ChessBoardException("There is no piece on the chosen origin!");
+            }
+            if (PlayerToAct != Board.piece(position).Color)
+            {
+                throw new ChessBoardException("Please select your own pieces!");
+            }
+            if (!Board.piece(position).ExistPossibleMovements())
+            {
+                throw new ChessBoardException("The piece have no possible movements!");
+            }
+
+        }
+
+        public  void ValidateDestinationPosition(BoardPosition origin, BoardPosition destination)
+        {
+            if (!Board.piece(origin).CanMoveTo(destination))
+            {
+                throw new ChessBoardException("Invalid destination position");
+            }
+        }
+
+        private void ChangeTurn()
+        {
+            if (PlayerToAct == Color.White)
+            {
+                PlayerToAct = Color.Black;
+            }
+            else
+            {
+                PlayerToAct = Color.White;
+            }
+        }
+
         private void InitialSetup()
         {
             // Colocação das peças pretas
@@ -63,7 +107,7 @@ namespace xadrez_console.ChessPieces
             Board.PutPiece(new King(Color.White, Board), new PiecePosition('e', 1).ToPosition());
             Board.PutPiece(new Bishop(Color.White, Board), new PiecePosition('f', 1).ToPosition());
             Board.PutPiece(new Knight(Color.White, Board), new PiecePosition('g', 1).ToPosition());
-            Board.PutPiece(new Rook(Color.White, Board), new PiecePosition('h', 1).ToPosition());
+            Board.PutPiece(new Rook(Color.White, Board), new PiecePosition('h', 1).ToPosition());                  
         }
     }
 }

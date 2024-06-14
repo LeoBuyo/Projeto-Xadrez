@@ -21,6 +21,27 @@ namespace xadrez_console.ChessBoard
 
         public abstract bool[,] PossibleMovements();
 
+        public bool ExistPossibleMovements()
+        {
+            bool[,] matrix = PossibleMovements();
+            for (int i = 0; i < Board.Ranks; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    if (matrix[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(BoardPosition position)
+        {
+            return PossibleMovements()[position.Rank, position.Column];
+        }
+
         public void MovementCountIncrement()
         {
             MovementCount++;
