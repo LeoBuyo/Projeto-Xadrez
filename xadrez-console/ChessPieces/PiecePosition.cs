@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using xadrez_console.ChessBoard;
+﻿using xadrez_console.ChessBoard;
 
 namespace xadrez_console.ChessPieces
 {

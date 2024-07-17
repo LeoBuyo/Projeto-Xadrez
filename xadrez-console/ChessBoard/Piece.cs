@@ -1,5 +1,4 @@
-﻿using System;
-using xadrez_console.ChessBoard.Enums;
+﻿using xadrez_console.ChessBoard.Enums;
 
 namespace xadrez_console.ChessBoard
 {
