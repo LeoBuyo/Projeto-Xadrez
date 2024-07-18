@@ -1,4 +1,5 @@
-﻿using xadrez_console.ChessBoard;
+﻿using System.Reflection.PortableExecutable;
+using xadrez_console.ChessBoard;
 using xadrez_console.ChessBoard.Enums;
 
 namespace xadrez_console.ChessPieces
@@ -11,6 +12,7 @@ namespace xadrez_console.ChessPieces
         public bool Terminated { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -18,26 +20,56 @@ namespace xadrez_console.ChessPieces
             Turn = 1;
             PlayerToAct = Color.White;
             Terminated = false;
+            Check = false;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             InitialSetup();
         }
 
-        public void ExecutionOfMovement(BoardPosition origin, BoardPosition destination)
+        public Piece ExecutionOfMovement(BoardPosition origin, BoardPosition destination)
         {
             Piece p = Board.TakePiece(origin);
-            p.MovementCountIncrement();
+            p.MovementCountIncrease();
             Piece CapturedPiece = Board.TakePiece(destination);
             Board.PutPiece(p, destination);
             if (CapturedPiece != null)
             {
                 Captured.Add(CapturedPiece);
             }
+            return CapturedPiece;
+        }
+
+        public void UndoMovement(BoardPosition origin, BoardPosition destination, Piece capturedPiece)
+        {
+            Piece p = Board.TakePiece(destination);
+            p.MovementCountDecrease();
+            if (capturedPiece != null)
+            {
+                Board.PutPiece(capturedPiece, destination);
+                Captured.Remove(capturedPiece);
+            }
+            Board.PutPiece(p, origin);
         }
 
         public void MakeMove(BoardPosition origin, BoardPosition destination)
         {
-            ExecutionOfMovement(origin, destination);
+            Piece CapturedPiece = ExecutionOfMovement(origin, destination);
+
+            if (IsInCheck(PlayerToAct))
+            {
+                UndoMovement(origin, destination, CapturedPiece);
+                throw new ChessBoardException("Cannot put your king in check!");
+            }
+
+            if (IsInCheck(Opponent(PlayerToAct)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
             Turn++;
             ChangeTurn();
         }
@@ -106,10 +138,53 @@ namespace xadrez_console.ChessPieces
             return aux;
         }
 
+        private Color Opponent(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach (Piece x in PieceInGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece K = King(color);
+            if (K == null)
+            {
+                throw new ChessBoardException("There is no " + color + "king on the board!");
+            }
+
+            foreach (Piece x in PieceInGame(Opponent(color)))
+            {
+                bool[,] mat = x.PossibleMovements();
+                if (mat[K.Position.Rank,K.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void PutNewPiece(char column, int row, Piece piece)
         {
             Board.PutPiece(piece, new PiecePosition(column, row).ToPosition());
-            Pieces.Add(piece);
+            Pieces.Add(piece); 
         }
 
         private void InitialSetup()

@@ -13,7 +13,7 @@
             Column = column;
         }
 
-        public void defineValues(int rank, int column)
+        public void DefineValues(int rank, int column)
         {
             Rank = rank;
             Column = column;

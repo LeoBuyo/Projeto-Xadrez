@@ -41,9 +41,14 @@ namespace xadrez_console.ChessBoard
             return PossibleMovements()[position.Rank, position.Column];
         }
 
-        public void MovementCountIncrement()
+        public void MovementCountIncrease()
         {
             MovementCount++;
+        }
+
+        public void MovementCountDecrease()
+        {
+            MovementCount--;
         }
     }
 }
