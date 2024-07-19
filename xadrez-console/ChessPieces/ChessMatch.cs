@@ -1,5 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-using xadrez_console.ChessBoard;
+﻿using xadrez_console.ChessBoard;
 using xadrez_console.ChessBoard.Enums;
 
 namespace xadrez_console.ChessPieces
@@ -36,6 +35,27 @@ namespace xadrez_console.ChessPieces
             {
                 Captured.Add(CapturedPiece);
             }
+
+            // Kingside Castling
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                BoardPosition originRook = new BoardPosition(origin.Rank, origin.Column + 3);
+                BoardPosition destinationRook = new BoardPosition(origin.Rank, origin.Column + 1);
+                Piece R = Board.TakePiece(originRook);
+                R.MovementCountIncrease();
+                Board.PutPiece(R,destinationRook);
+            }
+
+            // Queenside Castling
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                BoardPosition originRook = new BoardPosition(origin.Rank, origin.Column - 4);
+                BoardPosition destinationRook = new BoardPosition(origin.Rank, origin.Column - 1);
+                Piece R = Board.TakePiece(originRook);
+                R.MovementCountIncrease();
+                Board.PutPiece(R, destinationRook);
+            }
+
             return CapturedPiece;
         }
 
@@ -49,6 +69,26 @@ namespace xadrez_console.ChessPieces
                 Captured.Remove(capturedPiece);
             }
             Board.PutPiece(p, origin);
+          
+            // Kingside Castling
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                BoardPosition originRook = new BoardPosition(origin.Rank, origin.Column + 3);
+                BoardPosition destinationRook = new BoardPosition(origin.Rank, origin.Column + 1);
+                Piece R = Board.TakePiece(destinationRook);
+                R.MovementCountDecrease();
+                Board.PutPiece(R, originRook);
+            }
+
+            // Queenside Castling
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                BoardPosition originRook = new BoardPosition(origin.Rank, destination.Column - 4);
+                BoardPosition destinationRook = new BoardPosition(origin.Rank, destination.Column - 1);
+                Piece R = Board.TakePiece(destinationRook);
+                R.MovementCountDecrease();
+                Board.PutPiece(R, originRook);
+            }
         }
 
         public void MakeMove(BoardPosition origin, BoardPosition destination)
@@ -70,7 +110,7 @@ namespace xadrez_console.ChessPieces
                 Check = false;
             }
 
-            if (IsInCheck(Opponent(PlayerToAct)))
+            if (IsCheckmate(Opponent(PlayerToAct)))
             {
                 Terminated = true;
             }
@@ -83,15 +123,15 @@ namespace xadrez_console.ChessPieces
 
         public void ValidateOriginPosition(BoardPosition position)
         {
-            if (Board.piece(position) == null)
+            if (Board.Piece(position) == null)
             {
                 throw new ChessBoardException("There is no piece on the chosen origin!");
             }
-            if (PlayerToAct != Board.piece(position).Color)
+            if (PlayerToAct != Board.Piece(position).Color)
             {
                 throw new ChessBoardException("Please select your own pieces!");
             }
-            if (!Board.piece(position).ExistPossibleMovements())
+            if (!Board.Piece(position).ExistPossibleMovements())
             {
                 throw new ChessBoardException("The piece have no possible movements!");
             }
@@ -100,7 +140,7 @@ namespace xadrez_console.ChessPieces
 
         public void ValidateDestinationPosition(BoardPosition origin, BoardPosition destination)
         {
-            if (!Board.piece(origin).CanMoveTo(destination))
+            if (!Board.Piece(origin).CanMoveTo(destination))
             {
                 throw new ChessBoardException("Invalid destination position");
             }
@@ -188,7 +228,7 @@ namespace xadrez_console.ChessPieces
             return false;
         }
 
-        public bool IsCheckMate(Color color)
+        public bool IsCheckmate(Color color)
         {
             if (!IsInCheck(color))
             {
@@ -228,10 +268,10 @@ namespace xadrez_console.ChessPieces
         private void InitialSetup()
         {
             PutNewPiece('a', 8, new Rook(Color.Black, Board));
-            PutNewPiece('b', 8, new Knight(Color.Black, Board));
+            /*PutNewPiece('b', 8, new Knight(Color.Black, Board));
             PutNewPiece('c', 8, new Bishop(Color.Black, Board));
-            PutNewPiece('d', 8, new Queen(Color.Black, Board));
-            PutNewPiece('e', 8, new King(Color.Black, Board));
+            PutNewPiece('d', 8, new Queen(Color.Black, Board));*/
+            PutNewPiece('e', 8, new King(Color.Black, Board, this));
             PutNewPiece('f', 8, new Bishop(Color.Black, Board));
             PutNewPiece('g', 8, new Knight(Color.Black, Board));
             PutNewPiece('h', 8, new Rook(Color.Black, Board));
@@ -256,9 +296,9 @@ namespace xadrez_console.ChessPieces
             PutNewPiece('b', 1, new Knight(Color.White, Board));
             PutNewPiece('c', 1, new Bishop(Color.White, Board));
             PutNewPiece('d', 1, new Queen(Color.White, Board));
-            PutNewPiece('e', 1, new King(Color.White, Board));
-            PutNewPiece('f', 1, new Bishop(Color.White, Board));
-            PutNewPiece('g', 1, new Knight(Color.White, Board));
+            PutNewPiece('e', 1, new King(Color.White, Board, this));
+            /*PutNewPiece('f', 1, new Bishop(Color.White, Board));
+            PutNewPiece('g', 1, new Knight(Color.White, Board));*/
             PutNewPiece('h', 1, new Rook(Color.White, Board));
         }
     }

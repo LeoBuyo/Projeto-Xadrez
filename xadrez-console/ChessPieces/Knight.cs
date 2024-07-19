@@ -16,7 +16,7 @@ namespace xadrez_console.ChessPieces
 
         private bool CanMove(BoardPosition pos)
         {
-            Piece p = Board.piece(pos);
+            Piece p = Board.Piece(pos);
             return p == null || p.Color != Color;
         }
 

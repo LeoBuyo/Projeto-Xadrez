@@ -15,7 +15,7 @@ namespace xadrez_console.ChessPieces
         }
         private bool CanMove(BoardPosition pos)
         {
-            Piece p = Board.piece(pos);
+            Piece p = Board.Piece(pos);
             return p == null || p.Color != Color;
         }
 
@@ -30,7 +30,7 @@ namespace xadrez_console.ChessPieces
             while (Board.VerifyPosition(position) && CanMove(position))
             {
                 matrix[position.Rank, position.Column] = true;
-                if (Board.piece(position) != null && Board.piece(position).Color != Color)
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                 {
                     break;
                 }
@@ -43,7 +43,7 @@ namespace xadrez_console.ChessPieces
             while (Board.VerifyPosition(position) && CanMove(position))
             {
                 matrix[position.Rank, position.Column] = true;
-                if (Board.piece(position) != null && Board.piece(position).Color != Color)
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                 {
                     break;
                 }
@@ -56,7 +56,7 @@ namespace xadrez_console.ChessPieces
             while (Board.VerifyPosition(position) && CanMove(position))
             {
                 matrix[position.Rank, position.Column] = true;
-                if (Board.piece(position) != null && Board.piece(position).Color != Color)
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                 {
                     break;
                 }
@@ -69,7 +69,7 @@ namespace xadrez_console.ChessPieces
             while (Board.VerifyPosition(position) && CanMove(position))
             {
                 matrix[position.Rank, position.Column] = true;
-                if (Board.piece(position) != null && Board.piece(position).Color != Color)
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                 {
                     break;
                 }

@@ -16,13 +16,13 @@ namespace xadrez_console.ChessPieces
 
         private bool EnemyInRange(BoardPosition pos)
         {
-            Piece p = Board.piece(pos);
+            Piece p = Board.Piece(pos);
             return p != null && p.Color != Color;
         }
 
         private bool EmptyFront(BoardPosition pos)
         {
-            return Board.piece(pos) == null;
+            return Board.Piece(pos) == null;
         }
 
         public override bool[,] PossibleMovements()

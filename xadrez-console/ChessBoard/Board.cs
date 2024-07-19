@@ -16,15 +16,15 @@
             Pieces = new Piece[ranks, columns];
         }
 
-        public Piece piece(BoardPosition pos)
+        public Piece Piece(BoardPosition position)
         {
-            return Pieces[pos.Rank, pos.Column];
+            return Pieces[position.Rank, position.Column];
         }
 
         public bool PieceExist(BoardPosition pos)
         {
             ValidatePosition(pos);
-            return piece(pos) != null;
+            return Piece(pos) != null;
         }
 
         public void PutPiece(Piece p, BoardPosition pos)
@@ -39,11 +39,11 @@
 
         public Piece TakePiece(BoardPosition pos)
         {
-            if (piece(pos) == null)
+            if (Piece(pos) == null)
             {
                 return null;
             }
-            Piece temp = piece(pos);
+            Piece temp = Piece(pos);
             temp.Position = null;
             Pieces[pos.Rank, pos.Column] = null;
             return temp;
