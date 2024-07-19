@@ -70,8 +70,15 @@ namespace xadrez_console.ChessPieces
                 Check = false;
             }
 
-            Turn++;
-            ChangeTurn();
+            if (IsInCheck(Opponent(PlayerToAct)))
+            {
+                Terminated = true;
+            }
+            else
+            {
+                Turn++;
+                ChangeTurn();
+            }
         }
 
         public void ValidateOriginPosition(BoardPosition position)
@@ -173,7 +180,7 @@ namespace xadrez_console.ChessPieces
             foreach (Piece x in PieceInGame(Opponent(color)))
             {
                 bool[,] mat = x.PossibleMovements();
-                if (mat[K.Position.Rank,K.Position.Column])
+                if (mat[K.Position.Rank, K.Position.Column])
                 {
                     return true;
                 }
@@ -181,10 +188,41 @@ namespace xadrez_console.ChessPieces
             return false;
         }
 
+        public bool IsCheckMate(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece x in PieceInGame(color))
+            {
+                bool[,] matrix = x.PossibleMovements();
+                for (int i = 0; i < Board.Ranks; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (matrix[i, j])
+                        {
+                            BoardPosition origin = x.Position;
+                            BoardPosition destination = new BoardPosition(i, j);
+                            Piece capturedPiece = ExecutionOfMovement(origin, destination);
+                            bool isInCheck = IsInCheck(color);
+                            UndoMovement(origin, destination, capturedPiece);
+                            if (!isInCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void PutNewPiece(char column, int row, Piece piece)
         {
             Board.PutPiece(piece, new PiecePosition(column, row).ToPosition());
-            Pieces.Add(piece); 
+            Pieces.Add(piece);
         }
 
         private void InitialSetup()
