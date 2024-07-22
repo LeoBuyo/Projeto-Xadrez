@@ -45,7 +45,7 @@ namespace xadrez_console.ChessPieces
                 BoardPosition destinationRook = new BoardPosition(origin.Rank, origin.Column + 1);
                 Piece R = Board.TakePiece(originRook);
                 R.MovementCountIncrease();
-                Board.PutPiece(R,destinationRook);
+                Board.PutPiece(R, destinationRook);
             }
 
             // Queenside Castling
@@ -64,9 +64,9 @@ namespace xadrez_console.ChessPieces
                 if (origin.Column != destination.Column && CapturedPiece == null)
                 {
                     BoardPosition pawnPosition;
-                    if ( p.Color == Color.White )
+                    if (p.Color == Color.White)
                     {
-                        pawnPosition = new BoardPosition(destination.Rank + 1 , destination.Column);
+                        pawnPosition = new BoardPosition(destination.Rank + 1, destination.Column);
                     }
                     else
                     {
@@ -90,7 +90,7 @@ namespace xadrez_console.ChessPieces
                 Captured.Remove(capturedPiece);
             }
             Board.PutPiece(p, origin);
-          
+
             // Kingside Castling
             if (p is King && destination.Column == origin.Column + 2)
             {
@@ -141,6 +141,20 @@ namespace xadrez_console.ChessPieces
                 throw new ChessBoardException("Cannot put your king in check!");
             }
 
+            Piece p = Board.Piece(destination);
+
+            // SpecialMove: Promotion
+            if (p is Pawn)
+            {
+                if ((p.Color == Color.White && destination.Rank == 0) || (p.Color == Color.Black && destination.Rank == 7))
+                {
+                    p = Board.TakePiece(destination);
+                    Pieces.Remove(p);
+                    Piece queen = new Queen(p.Color, Board);
+                    Board.PutPiece(queen, destination);
+                }
+            }
+
             if (IsInCheck(Opponent(PlayerToAct)))
             {
                 Check = true;
@@ -159,8 +173,6 @@ namespace xadrez_console.ChessPieces
                 Turn++;
                 ChangeTurn();
             }
-
-            Piece p = Board.Piece(destination);
 
             // SpecialMove: En Passant 
             if (p is Pawn && (destination.Rank == origin.Rank - 2 || destination.Rank == origin.Rank + 2))
@@ -333,11 +345,11 @@ namespace xadrez_console.ChessPieces
             PutNewPiece('d', 7, new Pawn(Color.Black, Board, this));
             PutNewPiece('e', 7, new Pawn(Color.Black, Board, this));
             PutNewPiece('f', 7, new Pawn(Color.Black, Board, this));
-            PutNewPiece('g', 4, new Pawn(Color.Black, Board, this));
+            PutNewPiece('g', 7, new Pawn(Color.Black, Board, this));
             PutNewPiece('h', 7, new Pawn(Color.Black, Board, this));
 
             PutNewPiece('a', 2, new Pawn(Color.White, Board, this));
-            PutNewPiece('b', 5, new Pawn(Color.White, Board, this));
+            PutNewPiece('b', 2, new Pawn(Color.White, Board, this));
             PutNewPiece('c', 2, new Pawn(Color.White, Board, this));
             PutNewPiece('d', 2, new Pawn(Color.White, Board, this));
             PutNewPiece('e', 2, new Pawn(Color.White, Board, this));
